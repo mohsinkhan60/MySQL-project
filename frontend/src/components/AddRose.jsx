@@ -1,13 +1,15 @@
 import { Button, Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import { useState } from 'react'
+import { toast } from 'react-toastify'
 import * as yup from 'yup'
+import { AxiosClient } from '../config/axiosClient'
 // import { AxiosClient } from '../config/axiosClient'
 // import { useMainContext } from '../context/MainContext'
 const AddRose = () => {
 //   const {fetchAllRose} =useMainContext()
     let [isOpen, setIsOpen] = useState(false)
-   //  const [loading,setLoading]= useState(false)
+    const [loading,setLoading]= useState(false)
 
 
     const validationSchema = yup.object({
@@ -22,22 +24,22 @@ image:yup.string().required("Image is required").url("Image should be a valid ur
         desc:'',
         image:''
     }
-   //  const onSubmitHandler = async(e,helpers)=>{
-   //      try {
-   //          setLoading(true)
-   //          const response = await AxiosClient.post("/rose/add-rose",e)
-   //          const data = await response.data;
-   //          toast.success(data.msg)
-   //          await fetchAllRose()
-   //          helpers.resetForm()
-   //      setIsOpen(false)
-   //      // add to your backend here
-   //      } catch (error) {
-   //          toast.error(error?.response?.data?.error || error.message )
-   //      }finally{
-   //          setLoading(false)
-   //      }
-   //  }
+    const onSubmitHandler = async(e,helpers)=>{
+        try {
+            setLoading(true)
+            const response = await AxiosClient.post("/rose/add-rose",e)
+            const data = await response.data;
+            toast.success(data.msg)
+            // await fetchAllRose()
+            helpers.resetForm()
+        setIsOpen(false)
+        // add to your backend here
+        } catch (error) {
+            toast.error(error?.response?.data?.error || error.message )
+        }finally{
+            setLoading(false)
+        }
+    }
 
   function open() {
     setIsOpen(true)
@@ -70,7 +72,7 @@ image:yup.string().required("Image is required").url("Image should be a valid ur
 
                     <Formik
                             initialValues={initialStates}
-                           //  onSubmit={onSubmitHandler}
+                            onSubmit={onSubmitHandler}
                             validationSchema={validationSchema}
                     >
                             <Form className='py-3'>
