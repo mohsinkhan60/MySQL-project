@@ -1,4 +1,6 @@
 import { Button, Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
+import { CgSpinner } from "react-icons/cg";
+import { FaArrowRight } from "react-icons/fa6";
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
@@ -14,21 +16,23 @@ const AddRose = () => {
 
     const validationSchema = yup.object({
         title: yup.string().required("Title is Required"),
-        desc: yup.string().required("Description is Required").min(10,"Description Length should be grater than 10 characters"),
+        description: yup.string().required("Description is Required").min(10,"Description Length should be grater than 10 characters"),
 image:yup.string().required("Image is required").url("Image should be a valid url")
         
     })
 
     const initialStates={
         title:'',
-        desc:'',
+        description:'',
         image:''
     }
     const onSubmitHandler = async(e,helpers)=>{
         try {
             setLoading(true)
             const response = await AxiosClient.post("/rose/add-rose",e)
+            // console.log(response)
             const data = await response.data;
+            // console.log(data)
             toast.success(data.msg)
             // await fetchAllRose()
             helpers.resetForm()
@@ -87,15 +91,15 @@ image:yup.string().required("Image is required").url("Image should be a valid ur
                                     <ErrorMessage name='image' className='text-xs text-red-500 ' component={'p'} />
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="desc" className='text-white text-sm'>Description</label>
-                                    <Field as="textarea" name="desc" type="text" className="w-full py-2 outline-none border-b bg-primary rounded-md text-white px-3 placeholder:text-gray-300 border-b-white" placeholder='Enter Rose Description' />
-                                    <ErrorMessage name='desc' className='text-xs text-red-500 ' component={'p'} />
+                                    <label htmlFor="description" className='text-white text-sm'>Description</label>
+                                    <Field as="textarea" name="description" type="text" className="w-full py-2 outline-none border-b bg-primary rounded-md text-white px-3 placeholder:text-gray-300 border-b-white" placeholder='Enter Rose Description' />
+                                    <ErrorMessage name='description' className='text-xs text-red-500 ' component={'p'} />
                                 </div>
                                 <div className="mb-3">
-                                    <button className="w-full border border-green-500 outline-none text-white flex items-center disabled:cursor-no-drop disabled:bg-gray-800 justify-center py-2 hover:bg-green-500  transition-all duration-300 cursor-pointer hover:rounded-md gap-x-2 "><span>Submit</span>
-                                        {/* {
+                                    <button disabled={loading} className="w-full border border-green-500 outline-none text-white flex items-center disabled:cursor-no-drop disabled:bg-gray-800 justify-center py-2 hover:bg-green-500  transition-all duration-300 cursor-pointer hover:rounded-md gap-x-2 "><span>Submit</span>
+                                        {
                                             loading?<CgSpinner className='text-xl animate-spin'/> : <FaArrowRight/> 
-                                        } */}
+                                        }
                                       </button>
                                 </div>
                             </Form>
@@ -103,12 +107,12 @@ image:yup.string().required("Image is required").url("Image should be a valid ur
 
 
               <div className="mt-4">
-                {/* <Button
+                <Button
                   className="inline-flex items-center gap-2 rounded-md bg-gray-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700"
                   onClick={close}
                 >
                   Got it, thanks!
-                </Button> */}
+                </Button>
               </div>
             </DialogPanel>
           </div>

@@ -9,16 +9,16 @@ const Header = () => {
 
                 <ul className="hidden md:flex space-x-3">
                     <li>
-                        <li to="/" className="text-gray-200 hover:text-gray-400 transition-all duration-300 border-b border-b-transparent hover:border-b-orange-400">Home</li>
+                        <a to="/" className="text-gray-200 hover:text-gray-400 transition-all duration-300 border-b border-b-transparent hover:border-b-orange-400">Home</a>
                     </li>
                     <li>
-                        <li to="/" className="text-gray-200 hover:text-gray-400 transition-all duration-300 border-b border-b-transparent hover:border-b-orange-400">About</li>
+                        <a to="/" className="text-gray-200 hover:text-gray-400 transition-all duration-300 border-b border-b-transparent hover:border-b-orange-400">About</a>
                     </li>
                     <li>
-                        <li to="/" className="text-gray-200 hover:text-gray-400 transition-all duration-300 border-b border-b-transparent hover:border-b-orange-400">Services</li>
+                        <a to="/" className="text-gray-200 hover:text-gray-400 transition-all duration-300 border-b border-b-transparent hover:border-b-orange-400">Services</a>
                     </li>
                     <li>
-                        <li to="/" className="text-gray-200 hover:text-gray-400 transition-all duration-300 border-b border-b-transparent hover:border-b-orange-400">Contact</li>
+                        <a to="/" className="text-gray-200 hover:text-gray-400 transition-all duration-300 border-b border-b-transparent hover:border-b-orange-400">Contact</a>
                     </li>
                 </ul>
             </nav>
