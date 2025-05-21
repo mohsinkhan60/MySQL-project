@@ -2,10 +2,9 @@
 /* eslint-disable react/prop-types */
 import { createContext, useContext, useEffect, useState } from "react";
 import { AxiosClient } from "../config/axiosClient";
-
 export const MainContext = createContext({
   roses: [],
-  fatchAllRoses: () => {},
+  fetchAllRose: () => {}, // <-- fix name here
 });
 
 export const useMainConntext = () => useContext(MainContext);
@@ -13,22 +12,22 @@ export const useMainConntext = () => useContext(MainContext);
 export const MainContextProvider = ({ children }) => {
   const [roses, setRoses] = useState([]);
 
-  const fatchAllRoses = async () => {
+  const fetchAllRose = async () => { // <-- fix name here
     try {
       const response = await AxiosClient.get("/rose/get-roses");
       const data = response.data;
-      // console.log(data);
       setRoses(data);
     } catch (error) {
       console.log(error);
     }
   };
+
   useEffect(() => {
-    fatchAllRoses();
-  });
+    fetchAllRose();
+  }, []);
 
   return (
-    <MainContext.Provider value={{ roses, fatchAllRoses }}>
+    <MainContext.Provider value={{ roses, fetchAllRose }}> {/* fix name here */}
       {children}
     </MainContext.Provider>
   );

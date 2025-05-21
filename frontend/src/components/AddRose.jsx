@@ -6,10 +6,11 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 import { AxiosClient } from "../config/axiosClient";
-// import { useMainConntext } from "../context/MainContext";
+import { useMainConntext } from "../context/MainContext";
+
 
 const AddRose = () => {
-    // const {fetchAllRose} = useMainConntext()
+  const { fetchAllRose } = useMainConntext();
   let [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -34,14 +35,12 @@ const AddRose = () => {
     try {
       setLoading(true);
       const response = await AxiosClient.post("/rose/add-rose", e);
-      // console.log(response)
-      const data = await response.data;
-      // console.log(data)
-      toast.success(data.msg);
-      // await fetchAllRose()
+      const data = response.data;
+      // console.log(data);
+      toast.success(data.message); // Use data.message
+      fetchAllRose();
       helpers.resetForm();
       setIsOpen(false);
-      // add to your backend here
     } catch (error) {
       toast.error(error?.response?.data?.error || error.message);
     } finally {
@@ -155,15 +154,6 @@ const AddRose = () => {
                   </div>
                 </Form>
               </Formik>
-
-              <div className="mt-4">
-                <Button
-                  className="inline-flex items-center gap-2 rounded-md bg-gray-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700"
-                  onClick={close}
-                >
-                  Got it, thanks!
-                </Button>
-              </div>
             </DialogPanel>
           </div>
         </div>
