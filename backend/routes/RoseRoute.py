@@ -25,6 +25,29 @@ def get_roses():
         return roses_arr,200
     except Exception as e:
         return {"error":str(e)},500
+
+
+@rose_route.route("/get-roses/<int:id>",methods=['GET'])
+def get_rose_by_id(id):
+    try:
+        mysql = getConnection()
+        cursor= mysql.cursor()
+        sql ="SELECT * FROM rose WHERE id = %s"
+        cursor.execute(sql, (id,))
+        roses = cursor.fetchall()
+        mysql.close()
+        roses_arr =[]
+        for i in roses:
+            items={
+                "id":i[0],
+                "title":i[1],
+                "image":i[3],
+                "description":i[2]
+            }
+            roses_arr.append(items)
+        return roses_arr[0],200
+    except Exception as e:
+        return {"error":str(e)},500
         
 
 @rose_route.route("/add-rose",methods=['GET','POST'])
