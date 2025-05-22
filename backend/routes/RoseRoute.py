@@ -5,26 +5,26 @@ from utils.db import getConnection
 
 rose_route = Blueprint("RoseRoute", __name__)
 
-@rose_route.route("/get-roses", methods=["GET"])
-def get_rose():
+@rose_route.route("/get-roses",methods=['GET'])
+def get_roses():
     try:
         mysql = getConnection()
-        cursor = mysql.cursor()
-        sql = "SELECT * FROM rose"
+        cursor= mysql.cursor()
+        sql ="SELECT * FROM rose"
         cursor.execute(sql)
         roses = cursor.fetchall()
         mysql.close()
-        roses_arr = []
+        roses_arr =[]
         for i in roses:
-            item = {
-                "id": i[0],
-                "title": i[1],
-                "image": i[3],
+            items={
+                "id":i[0],
+                "title":i[1],
+                "image":i[3]
             }
-            roses_arr.append(item)
-        return roses_arr , 200
+            roses_arr.append(items)
+        return roses_arr,200
     except Exception as e:
-        return {"error": str(e)}, 500
+        return {"error":str(e)},500
         
 
 @rose_route.route("/add-rose",methods=['GET','POST'])
