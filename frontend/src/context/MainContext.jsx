@@ -22,6 +22,7 @@ export const MainContextProvider = ({ children }) => {
     }
   };
 
+
   useEffect(() => {
     fetchAllRose();
   }, []);
