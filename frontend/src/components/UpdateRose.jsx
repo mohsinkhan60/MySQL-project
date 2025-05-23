@@ -1,49 +1,56 @@
+/* eslint-disable react/prop-types */
 import { Formik, Form, ErrorMessage, Field } from "formik";
 import * as yup from "yup";
 import { Button, Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { useState } from "react";
-// import {toast} from 'react-toastify'
-// import { AxiosClient } from '../config/axiosClient'
-// import {FaArrowRight } from 'react-icons/fa6'
-// import {CgSpinner} from 'react-icons/cg'
-const UpdateRose = () => {
+import { toast } from 'react-toastify';
+import { AxiosClient } from "../config/axiosClient";
+import { FaArrowRight } from 'react-icons/fa6';
+import { CgSpinner } from 'react-icons/cg';
+
+const UpdateRose = ({ data, updateHandler }) => {
   let [isOpen, setIsOpen] = useState(false);
-  //  const [loading,setLoading]= useState(false)
+  const [loading, setLoading] = useState(false);
 
   const validationSchema = yup.object({
     title: yup.string().required("Title is Required"),
-    desc: yup
+    description: yup
       .string()
       .required("Description is Required")
-      .min(10, "Description Length should be grater than 10 characters"),
+      .min(10, "Description Length should be greater than 10 characters"),
     image: yup
       .string()
       .required("Image is required")
       .url("Image should be a valid url"),
   });
-  //  console.log(data);
 
-  //  const initialStates={
-  //      title:data.title ||'',
-  //      desc:data.description ||'',
-  //      image:data.image || ''
-  //  }
-  //  const onSubmitHandler = async(e,helpers)=>{
-  //      try {
-  //          setLoading(true)
-  //          const response = await AxiosClient.put("/rose/update-rose/"+data.id,e)
-  //          const datas = await response.data;
-  //          toast.success(datas.msg)
-  //          await updateHandler(data.id)
-  //          helpers.resetForm()
-  //      setIsOpen(false)
-  //      // add to your backend here
-  //      } catch (error) {
-  //          toast.error(error?.response?.data?.error || error.message )
-  //      }finally{
-  //          setLoading(false)
-  //      }
-  //  }
+  const initialStates = {
+    title: data.title || '',
+    description: data.description || '',
+    image: data.image || ''
+  };
+
+  const onSubmitHandler = async (e, helpers) => {
+    try {
+      setLoading(true);
+      const response = await AxiosClient.put("/rose/update-rose/" + data.id, e);
+      const datas = response.data;
+      toast.success(datas.msg || datas.message || "Updated!");
+      await updateHandler(data.id);
+      helpers.resetForm();
+      setIsOpen(false);
+    } catch (error) {
+      toast.error(error?.response?.data?.error || error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return <div className="w-full h-screen flex items-center justify-center">
+      Loading....
+    </div>;
+  }
 
   function open() {
     setIsOpen(true);
@@ -82,8 +89,8 @@ const UpdateRose = () => {
               </DialogTitle>
 
               <Formik
-                //  initialValues={initialStates}
-                //  onSubmit={onSubmitHandler}
+                initialValues={initialStates}
+                onSubmit={onSubmitHandler}
                 validationSchema={validationSchema}
               >
                 <Form className="py-3">
@@ -120,41 +127,33 @@ const UpdateRose = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="desc" className="text-white text-sm">
+                    <label htmlFor="description" className="text-white text-sm">
                       Description
                     </label>
                     <Field
                       as="textarea"
-                      name="desc"
+                      name="description"
                       type="text"
                       className="w-full py-2 outline-none border-b bg-primary rounded-md text-white px-3 placeholder:text-gray-300 border-b-white"
                       placeholder="Enter Rose Description"
                     />
                     <ErrorMessage
-                      name="desc"
+                      name="description"
                       className="text-xs text-red-500 "
                       component={"p"}
                     />
                   </div>
                   <div className="mb-3">
-                    <button className="w-full border border-green-500 outline-none text-white flex items-center disabled:cursor-no-drop disabled:bg-gray-800 justify-center py-2 hover:bg-green-500  transition-all duration-300 cursor-pointer hover:rounded-md gap-x-2 ">
+                    <button type="submit" className="w-full border border-green-500 outline-none text-white flex items-center disabled:cursor-no-drop disabled:bg-gray-800 justify-center py-2 hover:bg-green-500  transition-all duration-300 cursor-pointer hover:rounded-md gap-x-2 ">
                       <span>Submit</span>
                       {
-                        //   loading?<CgSpinner className='text-xl animate-spin'/> : <FaArrowRight/>
+                        loading ? <CgSpinner className='text-xl animate-spin' /> : <FaArrowRight />
                       }
                     </button>
                   </div>
                 </Form>
               </Formik>
 
-              <div className="mt-4">
-                {/* <Button
-                  className="inline-flex items-center gap-2 rounded-md bg-gray-700 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white data-[open]:bg-gray-700"
-                  onClick={close}
-                >
-                  Got it, thanks!
-                </Button> */}
-              </div>
             </DialogPanel>
           </div>
         </div>

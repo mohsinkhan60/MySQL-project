@@ -1,5 +1,6 @@
 from flask import Blueprint, request
 from validations.RoseValidation import rose_schema
+from validations.RoseValidation import update_rose_schema
 from marshmallow import ValidationError
 from utils.db import getConnection
 
@@ -46,6 +47,27 @@ def get_rose_by_id(id):
             }
             roses_arr.append(items)
         return roses_arr[0],200
+    except Exception as e:
+        return {"error":str(e)},500
+        
+@rose_route.route("/update-rose/<int:id>",methods=['PUT'])
+def update_rose_by_id(id):
+    try:
+        data = update_rose_schema.load(request.json)
+        mysql = getConnection()
+        cursor= mysql.cursor()
+        sql ="update rose set title = %s, description = %s, image = %s where id = %s"
+        cursor.execute(sql, (data['title'], data['description'], data['image'],id,))
+        mysql.commit()
+        mysql.close()
+        return {
+            "message":"Rose updated successfully",
+            "data":data
+        },200
+    except ValidationError as err:
+        return {
+            "error":next(iter(err.messages.values()))[0]
+        },400
     except Exception as e:
         return {"error":str(e)},500
         
