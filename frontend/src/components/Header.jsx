@@ -1,11 +1,12 @@
+import { Link } from "react-router-dom"
 
 const Header = () => {
   return (
     <header className='w-full py-2 bg-slate-950'>
             <nav className=" w-full lg:w-[80%] mx-auto flex items-center justify-between">
-                <a to="/" className="text-xl font-bold text-white">
+                <Link to="/" className="text-xl cursor-pointer font-bold text-white">
                     Love Days
-                </a>
+                </Link>
 
                 <ul className="hidden md:flex space-x-3">
                     <li>
