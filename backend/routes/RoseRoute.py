@@ -57,12 +57,31 @@ def update_rose_by_id(id):
         mysql = getConnection()
         cursor= mysql.cursor()
         sql ="update rose set title = %s, description = %s, image = %s where id = %s"
-        cursor.execute(sql, (data['title'], data['description'], data['image'],id,))
+        cursor.execute(sql, (data['title'], data['description'], data['image'],id))
         mysql.commit()
         mysql.close()
         return {
             "message":"Rose updated successfully",
             "data":data
+        },200
+    except ValidationError as err:
+        return {
+            "error":next(iter(err.messages.values()))[0]
+        },400
+    except Exception as e:
+        return {"error":str(e)},500
+        
+@rose_route.route("/delete-rose/<int:id>",methods=['DELETE'])
+def delete_rose_by_id(id):
+    try:
+        mysql = getConnection()
+        cursor= mysql.cursor()
+        sql ="delete from rose where id = %s"
+        cursor.execute(sql, (id))
+        mysql.commit()
+        mysql.close()
+        return {
+            "message":"Rose delete successfully"
         },200
     except ValidationError as err:
         return {

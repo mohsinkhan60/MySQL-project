@@ -1,11 +1,15 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import UpdateRose from "../components/UpdateRose";
 import { AxiosClient } from "../config/axiosClient";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+// import { useMainConntext } from "../context/MainContext";
 
 const SingleFlowerPage = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  // const { fatchAllRose } = useMainConntext();
 
   const [data, setData] = useState({});
 
@@ -21,6 +25,22 @@ const SingleFlowerPage = () => {
       setLoading(false);
     }
   };
+
+  const deleteRoseHandler = async () => {
+    try {
+      setLoading(true);
+      const response = await AxiosClient.delete("/rose/delete-rose/" + id);
+      const data = response.data;
+      toast.success(data.msg || data.message || "Deleted!");
+      navigate("/");
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   useEffect(() => {
     fetchRose(id);
@@ -41,7 +61,10 @@ const SingleFlowerPage = () => {
           <p className="py-2 ">{data.description}</p>
           <div className="mb-3 flex gap-x-3 py-4">
             <UpdateRose data={data} updateHandler={fetchRose} />
-            <button className="px-10 py-2 rounded-full outline-none border-2 border-red-500 ">
+            <button
+              onClick={deleteRoseHandler}
+              className="px-10 py-2 rounded-full outline-none border-2 border-red-500 "
+            >
               Delete
             </button>
           </div>
