@@ -9,18 +9,18 @@ const Header = () => {
                 </Link>
 
                 <ul className="hidden md:flex space-x-3">
-                    <li>
+                    <Link>
                         <a to="/" className="text-gray-200 hover:text-gray-400 transition-all duration-300 border-b border-b-transparent hover:border-b-orange-400">Home</a>
-                    </li>
-                    <li>
+                    </Link>
+                    <Link>
                         <a to="/" className="text-gray-200 hover:text-gray-400 transition-all duration-300 border-b border-b-transparent hover:border-b-orange-400">About</a>
-                    </li>
-                    <li>
+                    </Link>
+                    <Link>
                         <a to="/" className="text-gray-200 hover:text-gray-400 transition-all duration-300 border-b border-b-transparent hover:border-b-orange-400">Services</a>
-                    </li>
-                    <li>
+                    </Link>
+                    <Link>
                         <a to="/" className="text-gray-200 hover:text-gray-400 transition-all duration-300 border-b border-b-transparent hover:border-b-orange-400">Contact</a>
-                    </li>
+                    </Link>
                 </ul>
             </nav>
 
